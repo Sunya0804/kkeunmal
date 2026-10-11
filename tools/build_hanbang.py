@@ -56,11 +56,11 @@ PAGE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>끝말잇기 한방단어 목록 {total:,}개 - 컴퓨터와 하는 끝말잇기</title>
+  <title>끝말잇기 한방단어 목록 {total:,}개 - 끝말잇기 게임</title>
   <meta name="description" content="표준국어대사전 명사 기준 끝말잇기 한방단어 {total:,}개를 끝 글자별로 정리했습니다. 꾼, 것, 슨, 륨, 늄처럼 이을 단어가 없는 글자로 끝나는 단어 모음입니다.">
   <link rel="canonical" href="{site}hanbang.html">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="컴퓨터와 하는 끝말잇기">
+  <meta property="og:site_name" content="끝말잇기 게임">
   <meta property="og:title" content="끝말잇기 한방단어 목록 {total:,}개">
   <meta property="og:description" content="표준국어대사전 명사 기준 한방단어를 끝 글자별로 정리했습니다.">
   <meta property="og:url" content="{site}hanbang.html">

@@ -33,8 +33,11 @@
     return d === ch ? [ch] : [ch, d];
   }
 
-  // 2·3단계 컴퓨터가 한방단어를 쓸 수 있을 때 실제로 쓸 확률
-  const KILL_CHANCE = { 2: 0.03, 3: 0.25 };
+  // 난이도: 1단계는 한방단어를 쓰지 않고, 2~6단계는 아래 확률로 쓰고,
+  // 7단계는 한 수 앞만 보고 공격하고, 8단계는 승패를 끝까지 읽는다.
+  const KILL_CHANCE = { 2: 0.03, 3: 0.07, 4: 0.12, 5: 0.18, 6: 0.25 };
+  const GREEDY_LEVEL = 7;
+  const PERFECT_LEVEL = 8;
 
   const lastOf =(word) => word[word.length - 1];
   const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -152,7 +155,7 @@
         const short = roomy.filter((w) => w.length <= 3);
         return pickRandom(short.length ? short : roomy.length ? roomy : safe.length ? safe : all);
       }
-      if (level >= 5) {
+      if (level >= PERFECT_LEVEL) {
         // 승패를 끝까지 읽어서, 이기는 단어가 있으면 그것만 낸다
         const list = this.cheatList().filter((i) => !i.banned);
         const wins = list.filter((i) => i.outcome === "W");
@@ -161,11 +164,11 @@
         if (loops.length) return pickMin(loops, (i) => this.countAfter(i.word)).word;
         return pickMin(list, (i) => -i.turns).word;
       }
-      if (level === 4) {
+      if (level === GREEDY_LEVEL) {
         // 한방단어가 있으면 반드시 쓰고, 없으면 상대가 이을 단어가 가장 적어지는 단어를 낸다
         return pickMin(all, (w) => this.countAfter(w));
       }
-      // 2·3단계: 무작위로 내다가 정해진 확률로 한방단어를 쓴다
+      // 2~6단계: 무작위로 내다가 정해진 확률로 한방단어를 쓴다
       const kills = all.filter((w) => this.countAfter(w) === 0);
       if (kills.length && (!safe.length || Math.random() < KILL_CHANCE[level])) return pickRandom(kills);
       return pickRandom(safe);
@@ -249,7 +252,7 @@
     }
   }
 
-  const api = { Game, dueum, startsFor, KILL_CHANCE };
+  const api = { Game, dueum, startsFor, KILL_CHANCE, GREEDY_LEVEL, PERFECT_LEVEL };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Kkeunmal = api;
 })(typeof window !== "undefined" ? window : globalThis);

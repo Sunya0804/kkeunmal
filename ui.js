@@ -2,20 +2,22 @@
 (function () {
   "use strict";
 
-  const { Game, startsFor, KILL_CHANCE } = window.Kkeunmal;
+  const { Game, startsFor, KILL_CHANCE, GREEDY_LEVEL, PERFECT_LEVEL } = window.Kkeunmal;
   const WORDS = window.WORDS;
   const HINTS_PER_GAME = 3;
   const RECORD_KEY = "kkeunmal-record";
   const DEFAULT_SECONDS = 15;
+  const DEFAULT_LEVEL = 4;
   const MAX_SECONDS = 999;
   const percent = (p) => Math.round(p * 100) + "%";
   const LEVELS = {
     1: "한방단어를 쓰지 않습니다. 이어 가기 쉬운 짧은 단어 위주로 냅니다.",
-    2: `아무 단어나 내다가, 한방단어가 있으면 아주 낮은 확률(${percent(KILL_CHANCE[2])})로 씁니다.`,
-    3: `아무 단어나 내다가, 한방단어가 있으면 ${percent(KILL_CHANCE[3])} 확률로 씁니다.`,
-    4: "한방단어가 있으면 반드시 씁니다. 없으면 내가 이을 단어가 가장 적어지는 단어를 냅니다.",
-    5: "승패를 끝까지 읽어서, 이기는 단어가 있으면 그 단어만 냅니다. 없으면 승패가 갈리지 않는 단어로 버팁니다.",
+    [GREEDY_LEVEL]: "한방단어가 있으면 반드시 씁니다. 없으면 내가 이을 단어가 가장 적어지는 단어를 냅니다.",
+    [PERFECT_LEVEL]: "승패를 끝까지 읽어서, 이기는 단어가 있으면 그 단어만 냅니다. 없으면 승패가 갈리지 않는 단어로 버팁니다.",
   };
+  for (const [level, chance] of Object.entries(KILL_CHANCE)) {
+    LEVELS[level] = `아무 단어나 내다가, 한방단어가 있으면 ${percent(chance)} 확률로 씁니다.`;
+  }
 
   const $ = (id) => document.getElementById(id);
   const el = {
@@ -286,7 +288,12 @@
   });
   el.timeSeconds.addEventListener("change", timeLimitSeconds);
 
-  for (const text of Object.values(LEVELS)) {
+  for (const [level, text] of Object.entries(LEVELS)) {
+    const option = document.createElement("option");
+    option.value = level;
+    option.textContent = level + "단계";
+    option.selected = Number(level) === DEFAULT_LEVEL;
+    el.level.append(option);
     const li = document.createElement("li");
     li.textContent = text;
     el.levelList.append(li);

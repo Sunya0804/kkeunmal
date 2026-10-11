@@ -17,17 +17,6 @@
   const game = new Game(WORDS);
   let page = 1;
 
-  function indexOfWord(word) {
-    let lo = 0, hi = WORDS.length - 1;
-    while (lo <= hi) {
-      const mid = (lo + hi) >> 1;
-      if (WORDS[mid] === word) return mid;
-      if (WORDS[mid] < word) lo = mid + 1;
-      else hi = mid - 1;
-    }
-    return -1;
-  }
-
   function renderPage() {
     page = Math.min(Math.max(1, Math.round(Number(page)) || 1), PAGE_COUNT);
     el.page.value = page;
@@ -52,15 +41,17 @@
       el.searchMessage.textContent = "한글로만 입력해 주세요.";
       return;
     }
-    const index = indexOfWord(word);
     game.setPrevious(word);
     // 첫 차례 한방단어 금지는 게임 규칙일 뿐이므로 여기서는 표시하지 않는다
     const items = game.cheatList().map((item) => ({ ...item, banned: false }));
     const starts = startsFor(game.lastChar).join("' 또는 '");
     el.resultTitle.textContent = `'${word}' 다음: '${starts}'(으)로 시작하는 단어 ${items.length.toLocaleString("ko-KR")}개`;
-    el.resultDef.textContent = index >= 0
-      ? (window.DEFS ? window.DEFS[index] : "")
-      : "(이 단어는 DB에 없습니다. 끝 글자로 이어지는 단어만 보여 드립니다.)";
+    if (game.wordSet.has(word)) {
+      window.Definitions.fill(el.resultDef, word);
+    } else {
+      el.resultDef.dataset.word = "";
+      el.resultDef.textContent = "(이 단어는 DB에 없습니다. 끝 글자로 이어지는 단어만 보여 드립니다.)";
+    }
     window.CheatView.render(el.resultList, items);
     el.resultPanel.hidden = false;
     el.search.value = word;

@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>컴퓨터와 하는 끝말잇기</title>
+  <title>컴퓨터와 하는 끝말잇기 - 표준국어대사전 명사로 겨루는 끝말잇기 게임</title>
+  <meta name="description" content="표준국어대사전 명사 21만 개로 컴퓨터와 겨루는 끝말잇기 게임입니다. 설치 없이 브라우저에서 바로 할 수 있고, 난이도 8단계와 한방단어 분석 기능이 있습니다.">
+  <link rel="canonical" href="https://sunya0804.github.io/kkeunmal/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="컴퓨터와 하는 끝말잇기">
+  <meta property="og:title" content="컴퓨터와 하는 끝말잇기">
+  <meta property="og:description" content="표준국어대사전 명사 21만 개로 컴퓨터와 겨루는 끝말잇기 게임입니다. 설치 없이 브라우저에서 바로 할 수 있고, 난이도 8단계와 한방단어 분석 기능이 있습니다.">
+  <meta property="og:url" content="https://sunya0804.github.io/kkeunmal/">
+  <meta property="og:image" content="https://sunya0804.github.io/kkeunmal/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,6 +21,12 @@
     <header>
       <h1>컴퓨터와 하는 끝말잇기</h1>
       <p class="sub">표준국어대사전에 실린 명사 <span id="wordCount">-</span>개로 겨룹니다.</p>
+      <nav class="nav">
+        <a href="index.html" aria-current="page">게임</a>
+        <a href="guide.html" target="_blank" rel="noopener">게임 방법</a>
+        <a href="hanbang.html" target="_blank" rel="noopener">한방단어</a>
+        <a href="db.html" target="_blank" rel="noopener">전체 DB</a>
+      </nav>
     </header>
 
     <section class="settings">
@@ -59,7 +75,6 @@
         <button id="hint" type="button" disabled>힌트 (<span id="hintLeft">3</span>)</button>
         <button id="giveUp" type="button" disabled>포기</button>
         <button id="cheat" type="button" disabled>치사한 짓 하기</button>
-        <a class="button" href="db.html" target="_blank" rel="noopener">전체 DB 보기</a>
         <span class="record">이은 단어 <b id="chainLen">0</b>개 · 전적 <b id="wins">0</b>승 <b id="losses">0</b>패</span>
       </div>
     </section>
@@ -86,12 +101,13 @@
           <li>제한 시간 안에 잇지 못하거나 포기하면 지고, 컴퓨터가 잇지 못하면 이깁니다.</li>
         </ul>
       </details>
+      <p>2018년에 문을 닫은 웹 게임 '컴퓨터와 하는 끝말잇기'를 비슷하게 다시 만든 게임입니다. 원작 사이트와는 관계가 없습니다. 규칙과 요령은 <a href="guide.html" target="_blank" rel="noopener">게임 방법</a>에, 이을 단어가 없는 단어는 <a href="hanbang.html" target="_blank" rel="noopener">한방단어 목록</a>에 정리해 두었습니다.</p>
       <p>단어 자료: 국립국어원 표준국어대사전 (CC BY-SA 2.0 KR)</p>
     </footer>
   </main>
 
   <script src="data/words.js"></script>
-  <script src="data/defs.js" async></script>
+  <script src="definitions.js"></script>
   <script src="engine.js"></script>
   <script src="cheatview.js"></script>
   <script src="ui.js"></script>

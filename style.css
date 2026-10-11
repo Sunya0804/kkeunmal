@@ -31,6 +31,11 @@ header { text-align: center; margin-bottom: 20px; }
 h1 { margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
 .sub { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; }
 
+.nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; margin-top: 10px; font-size: 0.9rem; }
+.nav a { color: var(--accent); text-decoration: none; padding: 2px 4px; }
+.nav a:hover { text-decoration: underline; }
+.nav a[aria-current="page"] { color: var(--ink); font-weight: bold; }
+
 section {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -180,6 +185,19 @@ form input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .pager input { width: 5.5em; }
 .db-words { display: flex; flex-wrap: wrap; gap: 4px; }
 .db-words button { padding: 2px 8px; font-size: 0.9rem; }
+
+.prose h2 { margin: 0 0 8px; font-size: 1.15rem; }
+.prose h3 { margin: 16px 0 4px; font-size: 0.95rem; }
+.prose h3 .count { font-weight: normal; color: var(--muted); font-size: 0.85rem; }
+.prose p, .prose ul { margin: 0 0 10px; }
+.prose ul { padding-left: 1.3em; }
+.prose li { margin-bottom: 4px; }
+.prose a, footer a { color: var(--accent); }
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 10px; font-size: 0.9rem; }
+.prose th, .prose td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+.prose th { background: var(--bg); white-space: nowrap; }
+.prose td:first-child { white-space: nowrap; }
+.word-list { font-size: 0.9rem; word-break: keep-all; }
 
 footer { color: var(--muted); font-size: 0.8rem; }
 footer summary { cursor: pointer; }

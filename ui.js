@@ -52,20 +52,6 @@
     try { localStorage.setItem(RECORD_KEY, JSON.stringify(record)); } catch (e) { /* 무시 */ }
   }
 
-  // WORDS 는 정렬되어 있으므로 이진 탐색으로 뜻풀이를 찾는다 (defs.js 는 늦게 도착할 수 있다)
-  function definitionOf(word) {
-    const defs = window.DEFS;
-    if (!defs) return "";
-    let lo = 0, hi = WORDS.length - 1;
-    while (lo <= hi) {
-      const mid = (lo + hi) >> 1;
-      if (WORDS[mid] === word) return defs[mid];
-      if (WORDS[mid] < word) lo = mid + 1;
-      else hi = mid - 1;
-    }
-    return "";
-  }
-
   function setMessage(text, kind) {
     el.message.textContent = text;
     el.message.className = "message" + (kind ? " " + kind : "");
@@ -96,7 +82,7 @@
     last.textContent = word.slice(-1);
     el.current.append(last);
     el.current.className = "current " + by;
-    el.definition.textContent = definitionOf(word);
+    window.Definitions.fill(el.definition, word);
 
     const li = document.createElement("li");
     li.className = by;
@@ -107,7 +93,7 @@
     w.textContent = word;
     const d = document.createElement("span");
     d.className = "def";
-    d.textContent = definitionOf(word);
+    window.Definitions.fill(d, word);
     li.append(who, w, d);
     el.history.prepend(li);
     renderRecord();
@@ -224,6 +210,7 @@
     el.history.textContent = "";
     el.current.textContent = "끝말잇기";
     el.current.className = "current";
+    el.definition.dataset.word = "";
     el.definition.textContent = "";
     setMessage("");
     renderRecord();

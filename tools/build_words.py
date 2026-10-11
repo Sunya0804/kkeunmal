@@ -8,17 +8,19 @@ XML 폴더는 국립국어원 표준국어대사전 사이트(https://stdict.kor
 (같은 자료의 미러: https://github.com/spellcheck-ko/korean-dict-nikl-stdict)
 
 결과물:
-    data/words.js  단어 목록
-    data/defs.js   단어별 뜻풀이(첫 번째 뜻, 잘라서 저장)
+    data/words.js      단어 목록
+    data/defs/NNN.js   단어별 뜻풀이(첫 번째 뜻, 잘라서 저장). 2,000단어씩 나눈 묶음
 """
 import glob
 import json
 import os
 import re
+import shutil
 import sys
 import xml.etree.ElementTree as ET
 
 DEF_MAX = 70
+DEF_CHUNK = 2000  # definitions.js 의 CHUNK_SIZE 와 같아야 한다
 HANGUL = re.compile(r"[가-힣]{2,}")
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 
@@ -64,8 +66,13 @@ def main(xml_dir):
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "words.js"), "w", encoding="utf-8", newline="\n") as f:
         f.write('window.WORDS="' + ",".join(ordered) + '".split(",");\n')
-    with open(os.path.join(OUT_DIR, "defs.js"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("window.DEFS=" + json.dumps("\n".join(words[w] for w in ordered), ensure_ascii=False) + '.split("\\n");\n')
+    defs_dir = os.path.join(OUT_DIR, "defs")
+    shutil.rmtree(defs_dir, ignore_errors=True)
+    os.makedirs(defs_dir)
+    for n, start in enumerate(range(0, len(ordered), DEF_CHUNK)):
+        text = "\n".join(words[w] for w in ordered[start:start + DEF_CHUNK])
+        with open(os.path.join(defs_dir, f"{n:03d}.js"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(f"window.onDefsChunk({n},{json.dumps(text, ensure_ascii=False)});\n")
     print(f"명사 {len(ordered):,}개 저장")
 
 

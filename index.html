@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>컴퓨터와 하는 끝말잇기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>컴퓨터와 하는 끝말잇기</h1>
+      <p class="sub">표준국어대사전에 실린 명사 <span id="wordCount">-</span>개로 겨룹니다.</p>
+    </header>
+
+    <section class="settings">
+      <label>난이도
+        <select id="level">
+          <option value="1">1단계</option>
+          <option value="2">2단계</option>
+          <option value="3" selected>3단계</option>
+          <option value="4">4단계</option>
+          <option value="5">5단계</option>
+        </select>
+      </label>
+      <label>제한 시간
+        <span class="time-limit">
+          <select id="timeMode">
+            <option value="none">없음</option>
+            <option value="custom" selected>직접 입력</option>
+          </select>
+          <span id="timeCustom"><input id="timeSeconds" type="number" min="1" max="999" step="1" value="15" inputmode="numeric"> 초</span>
+        </span>
+      </label>
+      <label>선공
+        <select id="first">
+          <option value="player" selected>나</option>
+          <option value="computer">컴퓨터</option>
+          <option value="random">무작위</option>
+        </select>
+      </label>
+      <button id="newGame" type="button" class="primary">새 게임</button>
+      <div class="level-info">
+        <p id="levelDesc"></p>
+        <details>
+          <summary>난이도별 설명 모두 보기</summary>
+          <ol id="levelList"></ol>
+        </details>
+      </div>
+    </section>
+
+    <section class="board">
+      <div class="turn" id="turn">새 게임을 눌러 시작하세요.</div>
+      <div class="current" id="current">끝말잇기</div>
+      <div class="definition" id="definition"></div>
+      <div class="timer"><div class="timer-bar" id="timerBar"></div></div>
+
+      <form id="form" autocomplete="off">
+        <input id="input" type="text" maxlength="20" placeholder="단어를 입력하세요" disabled>
+        <button id="submit" type="submit" class="primary" disabled>입력</button>
+      </form>
+      <div class="message" id="message"></div>
+
+      <div class="actions">
+        <button id="hint" type="button" disabled>힌트 (<span id="hintLeft">3</span>)</button>
+        <button id="giveUp" type="button" disabled>포기</button>
+        <button id="cheat" type="button" disabled>치사한 짓 하기</button>
+        <a class="button" href="db.html" target="_blank" rel="noopener">전체 DB 보기</a>
+        <span class="record">이은 단어 <b id="chainLen">0</b>개 · 전적 <b id="wins">0</b>승 <b id="losses">0</b>패</span>
+      </div>
+    </section>
+
+    <section class="cheat" id="cheatPanel" hidden>
+      <h2>치사한 짓 하기 <span class="legend">W+2: 2턴 안에 이김 · L-3: 3턴 안에 짐 · W+0: 한방단어</span></h2>
+      <p class="legend">쌍방이 최선의 단어만 낸다고 할 때의 결과입니다. 단어를 누르면 입력 칸에 들어갑니다. (이번 차례는 제한 시간이 멈춥니다.)</p>
+      <div id="cheatList"></div>
+    </section>
+
+    <section class="history">
+      <h2>지금까지 나온 단어</h2>
+      <ol id="history" reversed></ol>
+    </section>
+
+    <footer>
+      <details>
+        <summary>규칙</summary>
+        <ul>
+          <li>표준국어대사전에 실린 <b>두 글자 이상의 명사</b>만 쓸 수 있습니다. (구, 의존 명사, 대명사, 수사, 방언, 북한어, 옛말 제외)</li>
+          <li>앞 단어의 끝 글자로 시작해야 하며, <b>두음법칙</b>을 적용할 수 있습니다. (예: 력 → 역, 로 → 노, 녀 → 여)</li>
+          <li>한 번 나온 단어는 다시 쓸 수 없습니다.</li>
+          <li>서로의 첫 차례에는 이을 단어가 없는 <b>한방단어</b>를 쓸 수 없습니다.</li>
+          <li>제한 시간 안에 잇지 못하거나 포기하면 지고, 컴퓨터가 잇지 못하면 이깁니다.</li>
+        </ul>
+      </details>
+      <p>단어 자료: 국립국어원 표준국어대사전 (CC BY-SA 2.0 KR)</p>
+    </footer>
+  </main>
+
+  <script src="data/words.js"></script>
+  <script src="data/defs.js" async></script>
+  <script src="engine.js"></script>
+  <script src="cheatview.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

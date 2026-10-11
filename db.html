@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>전체 DB - 컴퓨터와 하는 끝말잇기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app wide">
+    <header>
+      <h1>전체 DB</h1>
+      <p class="sub">표준국어대사전 명사 <span id="wordCount">-</span>개 · <a href="index.html">게임으로 돌아가기</a></p>
+    </header>
+
+    <section>
+      <form id="searchForm" autocomplete="off">
+        <input id="search" type="text" maxlength="20" placeholder="단어를 입력하고 엔터 (예: 가족)">
+        <button type="submit" class="primary">이어지는 단어 찾기</button>
+      </form>
+      <div class="message" id="searchMessage"></div>
+    </section>
+
+    <section class="cheat" id="resultPanel" hidden>
+      <h2><span id="resultTitle"></span> <span class="legend">W+2: 2턴 안에 이김 · L-3: 3턴 안에 짐 · W+0: 한방단어</span></h2>
+      <p class="definition" id="resultDef"></p>
+      <p class="legend">이기기에 유리한 순서입니다. 쌍방이 최선의 단어만 낸다고 할 때의 결과이며, 단어를 누르면 그 단어에 이어지는 단어를 다시 찾습니다.</p>
+      <div id="resultList"></div>
+    </section>
+
+    <section>
+      <div class="db-bar">
+        <h2>모든 단어</h2>
+        <label>정렬
+          <select id="order">
+            <option value="asc" selected>가나다 오름차순 (ㄱ → ㅎ)</option>
+            <option value="desc">가나다 내림차순 (ㅎ → ㄱ)</option>
+          </select>
+        </label>
+        <span class="pager">
+          <button id="prev" type="button">이전</button>
+          <input id="page" type="number" min="1" step="1" value="1"> / <span id="pageCount">1</span> 쪽
+          <button id="next" type="button">다음</button>
+        </span>
+      </div>
+      <div class="db-words" id="words"></div>
+    </section>
+  </main>
+
+  <script src="data/words.js"></script>
+  <script src="data/defs.js" async></script>
+  <script src="engine.js"></script>
+  <script src="cheatview.js"></script>
+  <script src="db.js"></script>
+</body>
+</html>
